@@ -1,0 +1,43 @@
+MIN_LENGTH=8
+
+MIN_SPECIAL_CHARACTERS=1
+
+MIN_DIGITS=1
+
+MIN_UPPERCASE=1
+
+MIN_LOWERCASE=1
+
+password=$1
+
+if [ ${#password} -lt $MIN_LENGTH ]; then
+  echo "Şifre en az $MIN_LENGTH karakter uzunluğunda olmalıdır."
+  exit 1
+fi
+
+special_characters=$(echo "$password" | grep -o '[^[:alnum:]]' | wc -l)
+if [ $special_characters -lt $MIN_SPECIAL_CHARACTERS ]; then
+  echo "Şifrede en az $MIN_SPECIAL_CHARACTERS özel karakter bulunmalıdır."
+  exit 1
+fi
+
+digits=$(echo "$password" | grep -o '[[:digit:]]' | wc -l)
+if [ $digits -lt $MIN_DIGITS ]; then
+  echo "Şifrede en az $MIN_DIGITS rakam bulunmalıdır."
+  exit 1
+fi
+
+uppercase=$(echo "$password" | grep -o '[[:upper:]]' | wc -l)
+if [ $uppercase -lt $MIN_UPPERCASE ]; then
+  echo "Şifrede en az $MIN_UPPERCASE büyük harf bulunmalıdır."
+  exit 1
+fi
+
+lowercase=$(echo "$password" | grep -o '[[:lower:]]' | wc -l)
+if [ $lowercase -lt $MIN_LOWERCASE ]; then
+  echo "Şifrede en az $MIN_LOWERCASE küçük harf bulunmalıdır."
+  exit 1
+fi
+
+echo "Şifre kabul edildi."
+exit 0
